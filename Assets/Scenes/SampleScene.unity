@@ -1020,17 +1020,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2621747776098218582, guid: c87fa60c7ee6681488404c93ddb32ae8, type: 3}
+      propertyPath: isChasingEnemy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2621747776098218582, guid: c87fa60c7ee6681488404c93ddb32ae8, type: 3}
+      propertyPath: isAttackingEnemy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329559094517700172, guid: c87fa60c7ee6681488404c93ddb32ae8, type: 3}
+      propertyPath: m_Mass
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5198264570223754528, guid: c87fa60c7ee6681488404c93ddb32ae8, type: 3}
       propertyPath: m_Name
       value: Sceleton
       objectReference: {fileID: 0}
     - target: {fileID: 8278508979012098501, guid: c87fa60c7ee6681488404c93ddb32ae8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.03
+      value: 3.63
       objectReference: {fileID: 0}
     - target: {fileID: 8278508979012098501, guid: c87fa60c7ee6681488404c93ddb32ae8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.24
+      value: -3.36
       objectReference: {fileID: 0}
     - target: {fileID: 8278508979012098501, guid: c87fa60c7ee6681488404c93ddb32ae8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1243,9 +1255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5eab4ae71c334c49876e5c492156f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damagableObject: {fileID: 1963733953}
-  _blinkMaterial: {fileID: 2100000, guid: fdc3905f545b8dd45ad293f9d5d1a3c8, type: 2}
-  _blinkDuration: 0.2
+  damagableObject: {fileID: 0}
+  blinkMaterial: {fileID: 0}
+  blinkDuration: 0.2
 --- !u!1001 &1362460696
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1627,9 +1639,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77eb3ef28336b68488ed95a5d76c2195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 6
-  _maxHealth: 100
-  _damageRecoveryTime: 0.5
+  movingSpeed: 5
+  maxHealth: 100
+  damageRecoveryTime: 0.5
 --- !u!50 &1963733954
 Rigidbody2D:
   serializedVersion: 5
@@ -1715,8 +1727,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67823268de358ad4e84c46212bec022b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _knockBackForce: 2
-  _knockBackMovingTimerMax: 0.2
+  knockBackForce: 0
+  knockBackMovingTimerMax: 0
 --- !u!1 &1990251297
 GameObject:
   m_ObjectHideFlags: 0

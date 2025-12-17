@@ -11,8 +11,8 @@ public class KnockBack : MonoBehaviour
 
     //поля................................................................................................................
 
-    [SerializeField] private float _knockBackForce;
-    [SerializeField] private float _knockBackMovingTimerMax;
+    [SerializeField] private float knockBackForce;
+    [SerializeField] private float knockBackMovingTimerMax;
 
     private float _knockBackMovingTimer;
 
@@ -47,8 +47,8 @@ public class KnockBack : MonoBehaviour
     public void GetKnockedBack(Transform damageSourse)
     {
         IsGettingRnockBack = true; //устанавливаем флаг на активный
-        _knockBackMovingTimer = _knockBackMovingTimerMax; //устаналиваем время отлета на максимальное 
-        Vector2 difference = (transform.position - damageSourse.position).normalized * _knockBackForce / _rb.mass; //определяем вектор перемещения (направление и силу)
+        _knockBackMovingTimer = knockBackMovingTimerMax; //устаналиваем время отлета на максимальное 
+        Vector2 difference = (transform.position - damageSourse.position).normalized * knockBackForce / _rb.mass; //определяем вектор перемещения (направление и силу)
         
         _rb.AddForce(difference, ForceMode2D.Impulse);
     }

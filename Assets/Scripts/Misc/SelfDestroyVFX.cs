@@ -16,7 +16,7 @@ public class SelfDestroyVFX : MonoBehaviour
 
     void Update()
     {
-        if (_ps && !_ps.IsAlive()) // для ParticleSystem метод IsAlive() вернет tru если частицы проигрываються
+        if (_ps && !_ps.IsAlive()) // для ParticleSystem метод IsAlive() вернет true если частицы проигрываються
         {
             DestroySelf();
         }

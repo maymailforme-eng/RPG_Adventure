@@ -52,15 +52,7 @@ public class EnemyAI : MonoBehaviour
 
 
     //свойства.........................................................................................................................
-    public bool IsRunning //двигаеться ли враг 
-    {
-        get
-        {
-            if (_navMeshAgent.velocity == Vector3.zero) { return false; } // navMeshAgent.velocity  - вернет ввектор скорости
-            else {return true; }
-
-        }
-    }
+    public bool IsRunning => _navMeshAgent.velocity != Vector3.zero; //двигаеться ли враг 
 
     public float GetRoamingAnimationSpeed //получение текущей скорости 
     {

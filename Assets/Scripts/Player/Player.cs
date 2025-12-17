@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using System;
 
-[RequireComponent(typeof(KnockBack))]
+//[RequireComponent(typeof(KnockBack))]
 
 public class Player : MonoBehaviour
 {
@@ -10,11 +10,13 @@ public class Player : MonoBehaviour
     //ссылочные объекты ....................................................................................................
     private KnockBack _knockBack; //скрипт отталкивания
     private Rigidbody2D rb; //создаем переменную для храненния Rigidbody2D
+    private Camera _mainCamera;
 
     //поля ..................................................................................................................
-    [SerializeField] private float _speed = 1f; //переменная для изменения скорости
-    [SerializeField] private int _maxHealth = 100; //максимальное здоровье
-    [SerializeField] private float _damageRecoveryTime = 0.5f; //ограничение частоты получения урона 
+    [SerializeField] private float movingSpeed = 1f; //переменная для изменения скорости
+    [SerializeField] private int maxHealth = 100; //максимальное здоровье
+    [SerializeField] private float damageRecoveryTime = 0.5f; //ограничение частоты получения урона 
+
 
 
     private float _minMovingSpeed = 0.1f; //хранит нижнее значения скорости, если скорость объекта ниже - считаем что он стоит
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour
     private int _currentHealth; //текущее здоровье
     private bool _canTakeDamage; //флаг - возможность получения урона
     private bool _isAlive; //флаг - живой 
+
 
 
 
@@ -38,20 +41,21 @@ public class Player : MonoBehaviour
 
 
 
-    //святая троица ..........................................................................................................................................
+    //Live cycle методы ..........................................................................................................................................
     private void Awake()//выполняется до Start, инициализируем нужные переменные
     {
         Instance = this; //инициализируем стат.переменную. объектом который ее вызвал 
         rb = GetComponent<Rigidbody2D>();//записываем ссылку на Rigidbody2D, объекта
                                          //на котором висит скрипт
         _knockBack = GetComponent<KnockBack>(); //проинициализировали ссылкой на скрипт 
+        _mainCamera = Camera.main;
     }
 
     private void Start()
     {
         _isAlive = true;
         _canTakeDamage = true; //флаг получения урона активен
-        _currentHealth = _maxHealth;
+        _currentHealth = maxHealth;
         GameInput.Instance.OnPlayerAttack += GameInput_OnPlayerAttack; //подписываемся на событие атаки привязанное к клавиши мыши
     }
 
@@ -98,7 +102,9 @@ public class Player : MonoBehaviour
 
     public Vector2 GetPlayerScreenPosition()
     {
-        return Camera.main.WorldToScreenPoint(transform.position); //считываем положение героя
+        return _mainCamera.WorldToScreenPoint(transform.position); //считываем положение героя
+
+        //return Camera.main.WorldToScreenPoint(transform.position); //считываем положение героя
         //через камеру, которая привязана к нему, относительно экрана
     }
 
@@ -121,7 +127,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator DamageRecoveryRoutine() //корутина - отложенное выполннение 
     {
-        yield return new WaitForSeconds(_damageRecoveryTime); //останавливаем выполнение данного метода на время _damageRecoveryTime без блокировки основного потока
+        yield return new WaitForSeconds(damageRecoveryTime); //останавливаем выполнение данного метода на время _damageRecoveryTime без блокировки основного потока
         _canTakeDamage = true;
     }
 
@@ -138,7 +144,7 @@ public class Player : MonoBehaviour
     {
         
 
-        rb.MovePosition(rb.position + _inputVector * Time.fixedDeltaTime * _speed); //перемещение объекта
+        rb.MovePosition(rb.position + _inputVector * Time.fixedDeltaTime * movingSpeed); //перемещение объекта
 
         if (Mathf.Abs(_inputVector.x) > _minMovingSpeed || Mathf.Abs(_inputVector.y) > _minMovingSpeed) //контроль флага движения
         {
@@ -189,32 +195,5 @@ private void FixedUpdate() //метод вызывается через равные промежутки времени ()
     //конец первого варианта ...........................................................................................................
 
 
-    //Второй вариант через  PlayerInputAction ......................................................................................
-    /*
-    private PlayerInputAction playerInpuActions; // вторрой метод, через InputAction (современный метод)
 
-    private void Awake()//выполняется до Start, инициализируем нужные переменные
-    {
-         rb = GetComponent<Rigidbody2D>();//записываем ссылку на Rigidbody2D, объекта
-                                         //на котором висит скрипт
-        playerInpuActions = new PlayerInputAction();// создаем объект класса playerInpuActions (класс описан в библиотеке)
-        playerInpuActions.Enable(); //включает все Action внутри  playerInpuActions;
-    }
-
-    private Vector2 GetMovementVector()
-    {
-        Vector2 inputVector = playerInpuActions.Player.Move.ReadValue<Vector2>();
-        return inputVector;
-    }
-
-
-
-    private void FixedUpdate() //метод вызывается через равные промежутки времени ()
-    {
-        Vector2 inputVector = GetMovementVector();//получаем Vector2 из функции GetMovementVector
-        //inputVector = inputVector.normalized; при использовании InputAction - не требуется данная операция, он сам ее делает
-        rb.MovePosition(rb.position + inputVector * Time.fixedDeltaTime*speed); 
-    }
-    */
-    //конец второго варианта через  PlayerInputAction ......................................................................................
 }

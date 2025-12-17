@@ -1,12 +1,12 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Material))]
-[RequireComponent(typeof(SpriteRenderer))]
+//[RequireComponent(typeof(Material))]
+//[RequireComponent(typeof(SpriteRenderer))]
 public class FlashBlink : MonoBehaviour
 {
     //ссылочные объекты .......................................................................................
-    [SerializeField] private MonoBehaviour _damagableObject;
-    [SerializeField] private Material _blinkMaterial;
+    [SerializeField] private MonoBehaviour damagableObject;
+    [SerializeField] private Material blinkMaterial;
 
     private Material _defaultMaterial; //материал по умолчанию
     private SpriteRenderer _spriteRenderer; 
@@ -14,7 +14,7 @@ public class FlashBlink : MonoBehaviour
 
 
     //поля .................................................................................................
-    [SerializeField] private float _blinkDuration = 0.2f;
+    [SerializeField] private float blinkDuration = 0.2f;
 
     private float _blinkTimer;
     private bool _isBlinking; //флаг - может ли мигать
@@ -35,9 +35,9 @@ public class FlashBlink : MonoBehaviour
 
     private void Start()
     {
-        if (_damagableObject is Player)
+        if (damagableObject is Player player)
         {
-            (_damagableObject as Player).OnFlashBlink += DamagableObject_OnFlashBlink;
+            player.OnFlashBlink += DamagableObject_OnFlashBlink;
         }
     }
 
@@ -58,9 +58,9 @@ public class FlashBlink : MonoBehaviour
 
     private void OnDestroy() //выполниться при разрушении объекта 
     {
-        if (_damagableObject is Player)
+        if (damagableObject is Player player)
         {
-            (_damagableObject as Player).OnFlashBlink -= DamagableObject_OnFlashBlink; // отписываемся от события 
+            player.OnFlashBlink -= DamagableObject_OnFlashBlink; // отписываемся от события 
         }
     }
 
@@ -82,8 +82,8 @@ public class FlashBlink : MonoBehaviour
 
     private void SetBlinkingMaterial()
     {
-        _blinkTimer = _blinkDuration;
-        _spriteRenderer.material = _blinkMaterial;
+        _blinkTimer = blinkDuration;
+        _spriteRenderer.material = blinkMaterial;
     }
 
     private void DamagableObject_OnFlashBlink(object sender, System.EventArgs e) //метод-обработчик событи мигания 

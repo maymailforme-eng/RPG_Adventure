@@ -3,8 +3,8 @@ using UnityEngine;
 public class DestractiblePlantVisual : MonoBehaviour
 {
     //поля ссылочные объекты ..............................................................................................
-    [SerializeField] private DestractiblePlant _destructiblePlant;
-    [SerializeField] private GameObject _bushDeathVFXPrefab;
+    [SerializeField] private DestractiblePlant destructiblePlant;
+    [SerializeField] private GameObject bushDeathVFXPrefab;
 
     //поля ...........................................................................................................
 
@@ -12,14 +12,14 @@ public class DestractiblePlantVisual : MonoBehaviour
 
     private void Start()
     {
-        _destructiblePlant.OnDestractibleTakeDamage += DestractiblePlant_OnDestractibleTakeDamage;
+        destructiblePlant.OnDestractibleTakeDamage += DestractiblePlant_OnDestractibleTakeDamage;
     }
 
     private void OnDestroy()
     {
-        if (_destructiblePlant != null)
+        if (destructiblePlant != null)
         {
-            _destructiblePlant.OnDestractibleTakeDamage -= DestractiblePlant_OnDestractibleTakeDamage;
+            destructiblePlant.OnDestractibleTakeDamage -= DestractiblePlant_OnDestractibleTakeDamage;
         }
     }
 
@@ -36,7 +36,7 @@ public class DestractiblePlantVisual : MonoBehaviour
 
     private void ShowDeathVFX()
     {
-        Instantiate(_bushDeathVFXPrefab, _destructiblePlant.transform.position, Quaternion.identity);
+        Instantiate(bushDeathVFXPrefab, destructiblePlant.transform.position, Quaternion.identity);
 
     }
 

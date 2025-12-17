@@ -1,19 +1,24 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(FlashBlink))]
+//[RequireComponent(typeof(Animator))]
+//[RequireComponent(typeof(SpriteRenderer))]
+//[RequireComponent(typeof(FlashBlink))]
 public class PlayerVisual : MonoBehaviour
 {
+    //константные поля............................................................................................................
+    private const string IS_DIE = "IsDie"; // константа (имя параметра в аниматоре)
+    private const string IS_RUNNING = "isRunning"; // константа (имя параметра в аниматоре)
+
+    //хэширование поля.................................................................................................................
+    private static readonly int IsDie = Animator.StringToHash(IS_DIE);
+    private static readonly int IsRunning = Animator.StringToHash(IS_RUNNING);
+
     //ссылочные объекты ............................................................................................................
     private Animator _animator; //объект Animator - аниматор контроллер, создаем переменную под него
     private SpriteRenderer _spriteRenderer; // переменная под spriteRenderer объекта 
     private FlashBlink _flashBlink;
 
 
-    //поля ......................................................................................................................
-    private const string IS_DIE = "IsDie"; // константа (имя параметра в аниматоре)
-    private const string IS_RUNNING = "isRunning"; // константа (имя параметра в аниматоре)
 
 
     //святая троица .................................................................................................................
@@ -23,6 +28,8 @@ public class PlayerVisual : MonoBehaviour
         //на нашем объекте (к которому прикреплен скрипт)
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _flashBlink = GetComponent<FlashBlink>();
+  
+
 
     }
 
@@ -34,7 +41,7 @@ public class PlayerVisual : MonoBehaviour
 
     private void Update()
     {
-        _animator.SetBool(IS_RUNNING, Player.Instance.IsRunning()); //устанавливаем значение параметра bool в animator по имени isRunning  
+        _animator.SetBool(IsRunning, Player.Instance.IsRunning()); //устанавливаем значение параметра bool в animator по имени isRunning  
         //за значение отвечает метод Player.Instance.IsRunning() - которая определяет бежит герой или нет
         if (Player.Instance.IsAlive()) 
         {
@@ -61,17 +68,12 @@ public class PlayerVisual : MonoBehaviour
         Vector2 mousePos = GameInput.Instance.GetMousePosition(); //получаем позицию мыши
         Vector2 playerPosition = Player.Instance.GetPlayerScreenPosition(); //позицию персонажа
 
-        if (mousePos.x < playerPosition.x) //сравниваем
-        { 
-            _spriteRenderer.flipX = true; //если курсор левее персанажа, отзеркаливаем через  SpriteRenderer
-            //SpriteRenderer - объект полученный с нашего персанажа (окно)
-        }
-        else { _spriteRenderer.flipX = false; }
+        _spriteRenderer.flipX = mousePos.x < playerPosition.x; //если курсор левее персанажа, отзеркаливаем через  SpriteRenderer
     }
 
     private void Player_OnPlayerDeath(object sender, System.EventArgs e) //метод-обработчик события смерти;
     {
-        _animator.SetBool(IS_DIE, true); //устанавливаем значение параметра в аниматоре
+        _animator.SetBool(IsDie, true); //устанавливаем значение параметра в аниматоре
         _flashBlink.StopBlinking(); //останавливаем мигание;
     }
 
